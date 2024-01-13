@@ -6,7 +6,9 @@
 
     <groupId>lk.ijse.dep11</groupId>
     <artifactId>to-do-app-back-end</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0</version>
+    <description>to-do-app-back-end</description>
+    <packaging>war</packaging>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
