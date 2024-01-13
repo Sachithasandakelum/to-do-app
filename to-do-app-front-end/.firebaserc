@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "to-do-app-angular-577df": {
+      "hosting": {
+        "to-do-app": [
+          "to-do-app-angular-577df"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "to-do-app-angular-577df"
+  }
+}
