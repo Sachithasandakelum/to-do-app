@@ -12,6 +12,9 @@ import {RouterModule, Routes} from "@angular/router";
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import {AuthService} from "./service/auth.service";
+import {authGuard} from "./guard/auth.guard";
+import { LoaderComponent } from './view/loader/loader.component';
+
 
 const routes:Routes = [
   {
@@ -25,7 +28,8 @@ const routes:Routes = [
   },
   {
     path: 'app',
-    component: MainComponent
+    component: MainComponent,
+    canActivate:[authGuard]
   }
 ]
 
@@ -37,7 +41,8 @@ const routes:Routes = [
     FormComponent,
     TaskListComponent,
     TaskComponent,
-    LoginComponent
+    LoginComponent,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,

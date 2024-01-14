@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import {AuthService} from "../../service/auth.service";
+import {Title} from "@angular/platform-browser";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -19,7 +22,7 @@ import { Component } from '@angular/core';
                   Please sign in with your Google account to continue
               </div>
               <div class="text-center mt-2">
-                  <button  class="text-slate-200 border border-slate-400
+                  <button (click)="onClick()"  class="text-slate-200 border border-slate-400
                 hover:border-sky-600 hover:shadow-md hover:shadow-cyan-900
                 active:border-sky-800
                  rounded-md px-2 py-1 inline-flex items-center">
@@ -32,5 +35,14 @@ import { Component } from '@angular/core';
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
+  constructor(public authService: AuthService, private title: Title,private routerService:Router) {
+    title.setTitle("Login: To-do App");
+  }
 
+  onClick(){
+    console.log("Click una")
+    this.authService.signIn().then(user =>{
+      this.routerService.navigateByUrl('/app');
+    });
+  }
 }

@@ -1,4 +1,6 @@
 import {Component, ElementRef, HostListener, ViewChild} from '@angular/core';
+import {AuthService} from "../../service/auth.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-header',
@@ -18,7 +20,7 @@ import {Component, ElementRef, HostListener, ViewChild} from '@angular/core';
                  class="hidden cursor-auto flex-col gap-2 font-normal text-center bg-[#1E1F22] absolute border top-full mt-2 rounded-md right-0 p-2 shadow-lg shadow-gray-700 z-10">
                 <div  class="px-2 font-bold">Someone&#64;ijse.lk</div>
                 <div class="whitespace-nowrap px-2">Hi, User</div>
-                <div class="cursor-pointer group flex flex-row rounded justify-center items-center
+                <div (click)="onClick()" class="cursor-pointer group flex flex-row rounded justify-center items-center
                         bg-slate-600 p-2 hover:bg-slate-700">
                     <span class="material-symbols-outlined group-hover:text-lime-500 pr-1">
                         logout
@@ -34,6 +36,12 @@ import {Component, ElementRef, HostListener, ViewChild} from '@angular/core';
 export class HeaderComponent {
   @ViewChild('userMenu')
   userMenuElm!: ElementRef<HTMLDivElement>
+  // userImage: string;
+
+
+  constructor(public authService: AuthService,public routerService:Router) {
+    // this.userImage = `url(${authService.getPrincipal()!?.photoURL!})`;
+  }
 
 
   @HostListener('document:click')
@@ -50,5 +58,9 @@ export class HeaderComponent {
     if ($event.target != avatar) return;
     this.userMenuElm.nativeElement.classList.toggle('flex');
     this.userMenuElm.nativeElement.classList.toggle('hidden');
+  }
+
+  onClick(){
+    this.authService.signOut().then(value => this.routerService.navigateByUrl("/login"));
   }
 }
