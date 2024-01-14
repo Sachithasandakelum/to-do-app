@@ -14,13 +14,13 @@ import {Router} from "@angular/router";
             </span>
             To-Do-App</h1>
         <div #avatar (click)="onAvatarClick($event, avatar)"
-                class="bg-contain relative w-9 border bg-sky-500 border-gray-700 cursor-pointer  hover:shadow-lg hover:shadow-cyan-900 flex justify-center items-center text-white font-bold rounded-full ">
-            U
+                class="bg-contain relative w-9 border bg-sky-500 border-gray-700 cursor-pointer rounded-full  hover:shadow-lg hover:shadow-cyan-900 flex justify-center items-center text-white font-bold"
+             [style.background-image]="userImage">
             <div #userMenu
                  class="hidden cursor-auto flex-col gap-2 font-normal text-center bg-[#1E1F22] absolute border top-full mt-2 rounded-md right-0 p-2 shadow-lg shadow-gray-700 z-10">
-                <div  class="px-2 font-bold">Someone&#64;ijse.lk</div>
-                <div class="whitespace-nowrap px-2">Hi, User</div>
-                <div (click)="onClick()" class="cursor-pointer group flex flex-row rounded justify-center items-center
+                <div  class="px-2 font-bold">{{ authService.getPrincipal()?.email }}</div>
+                <div class="whitespace-nowrap px-2">Hi, {{ authService.getPrincipal()?.displayName }}!</div>
+                <div (click)="authService.signOut()" class="cursor-pointer group flex flex-row rounded justify-center items-center
                         bg-slate-600 p-2 hover:bg-slate-700">
                     <span class="material-symbols-outlined group-hover:text-lime-500 pr-1">
                         logout
@@ -36,11 +36,11 @@ import {Router} from "@angular/router";
 export class HeaderComponent {
   @ViewChild('userMenu')
   userMenuElm!: ElementRef<HTMLDivElement>
-  // userImage: string;
+  userImage: string;
 
 
   constructor(public authService: AuthService,public routerService:Router) {
-    // this.userImage = `url(${authService.getPrincipal()!?.photoURL!})`;
+    this.userImage = `url(${authService.getPrincipal()!?.photoURL!})`;
   }
 
 
@@ -60,7 +60,5 @@ export class HeaderComponent {
     this.userMenuElm.nativeElement.classList.toggle('hidden');
   }
 
-  onClick(){
-    this.authService.signOut().then(value => this.routerService.navigateByUrl("/login"));
-  }
+
 }

@@ -7,16 +7,22 @@ import {BehaviorSubject} from "rxjs";
 export class AuthService {
 
   private initialized = false;
-  private userSubject = new BehaviorSubject<User | null|undefined >(undefined)
+  private user: User | null = null;
+
   constructor(private auth:Auth ,private routerService: Router) {
     authState(auth).subscribe(user => {
       this.initialized = true;
-      this.userSubject.next(user);
+      this.user=user;
+      if (user) {
+        this.routerService.navigateByUrl('/app');
+      }else{
+        this.routerService.navigateByUrl('/login');
+      }
     });
   }
 
   signIn() {
-    return  signInWithPopup(this.auth, new GoogleAuthProvider());
+    signInWithPopup(this.auth, new GoogleAuthProvider());
   }
 
   isInitialized() {
@@ -24,10 +30,10 @@ export class AuthService {
   }
 
   getPrincipal(){
-    return this.userSubject.asObservable();
+    return this.user;
   }
 
   signOut() {
-    return signOut(this.auth);
+    signOut(this.auth);
   }
 }

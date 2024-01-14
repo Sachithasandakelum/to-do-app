@@ -14,8 +14,6 @@ import {AuthService} from "./service/auth.service";
 })
 export class AppComponent {
   title = 'to-do-app';
-  initialized:boolean;
   constructor(public authService: AuthService) {
-    this.initialized=authService.isInitialized();
   }
 }

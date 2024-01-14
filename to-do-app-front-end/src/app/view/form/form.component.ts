@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import {Component, Inject} from '@angular/core';
+import {TaskService} from "../../service/task-service";
 
 @Component({
   selector: 'app-form',
   template: `
-    <form action="" class="flex p-2 gap-1 border-b">
-        <input type="text"
+    <form (ngSubmit)="onSubmit(txt)" action="" class="flex p-2 gap-1 border-b border-gray-700 sticky top-0 bg-[#1E1F22]">
+        <input #txt type="text"
                placeholder="Eg. Finish To Do App Design"
         class="border flex-grow p-1 px-2 outline-0
                 bg-transparent border-gray-600  caret-sky-500 text-white
@@ -19,5 +20,19 @@ import { Component } from '@angular/core';
   styleUrl: './form.component.scss'
 })
 export class FormComponent {
+  constructor(@Inject(TaskService) private taskService: TaskService) {
+  }
 
+  async onSubmit(txtElm: HTMLInputElement) {
+    if (!txtElm.value.trim()){
+      txtElm.focus();
+      txtElm.select();
+    }else{
+      try {
+        await this.taskService.createTask(txtElm.value.trim());
+        txtElm.value = '';
+        txtElm.focus();
+      }catch (err){}
+    }
+  }
 }
